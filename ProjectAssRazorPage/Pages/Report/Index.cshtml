@@ -1,0 +1,72 @@
+@page
+@model RazorPage.Pages.Report.IndexModel
+
+@{
+    Layout = "Shared/_AdminLayout";
+    ViewData["Title"] = "Index";
+}
+
+<h1>Report</h1>
+
+<form method="post" asp-page="index" asp-page-handler="search">
+    <label class="control-label">START DAY</label>
+    @{
+        DateTime defaultDate = DateTime.Today;
+        DateTime currentDate = DateTime.Today;
+    }
+    <input asp-for="@Model.startDay" class="form-control" type="date" max="@currentDate.ToString("yyyy-MM-dd")" value="@defaultDate.ToString("yyyy-MM-dd")"/>
+    <span asp-validation-for="startDay" class="text-danger"></span>
+
+    <hr/>
+    <label class="control-label">END DAY</label>
+    <input asp-for="@Model.endDay" class="form-control" type="date" value="@defaultDate.ToString("yyyy-MM-dd")"/>
+    <span asp-validation-for="endDay" class="text-danger"></span>
+    <hr/>
+    <button type="submit" value="Search" class="btn btn-primary" style="margin: 0 auto">Search</button>
+</form>
+
+<h5> Total: @Model.Total </h5>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Order[0].OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Order[0].ShippedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Order[0].Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Order[0].OrderStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Order[0].Customer)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Order)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShippedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
